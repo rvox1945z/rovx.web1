@@ -10,9 +10,11 @@
     </style>
     <script>
         // Configuration for OneLogin OIDC
-        const clientId = 'b83716f6ebe3817eecffcc132eb3b3b2'; // Replace with your OneLogin Client ID
+        //const clientId = 'b83716f6ebe3817eecffcc132eb3b3b2'; // Replace with your OneLogin Client ID
+        const clientId = 'fc2914c0-e53d-013c-af80-6e2b792dfdbd38733'; // Replace with your OneLogin Client ID
         const domain = 'flintlink.onelogin.com'; // Replace with your OneLogin subdomain
-        const redirectUri = window.location.href; // The current URL or a predefined redirect URI
+        //const redirectUri = window.location.href; // The current URL or a predefined redirect URI
+        const redirectUri = 'https://flintlink.onelogin.com/oidc/2/.well-known/openid-configuration'; // window.location.href; // The current URL or a predefined redirect URI
         const authUrl = `https://${domain}/oidc/2/auth?response_type=id_token&client_id=${clientId}&redirect_uri=${redirectUri}&scope=openid%20profile&state=12345&nonce=abcdef`;
 
         // Function to check for authentication
@@ -45,11 +47,12 @@
 </head>
 <body>
     <h1>Welcome to My Simple Web Page with OneLogin</h1>
-    <p>This is a basic webpage.</p>
+    <p>This is a basic webpage that I created.</p>
 
     <div id="qlik-embed">
         <!-- The iframe will be injected here after authentication -->
     </div>
+
     <p>This is a basic app.</p>
 </body>
 </html>

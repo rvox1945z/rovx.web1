@@ -3,16 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Simple Web Page</title>
+    <title>My Simple Web Page with OneLogin</title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f0f0f0; }
         h1 { color: #333; }
     </style>
+    <script>
+        // Configuration for OneLogin OIDC
+        const clientId = 'b83716f6ebe3817eecffcc132eb3b3b2'; // Replace with your OneLogin Client ID
+        const domain = 'flintlink.onelogin.com'; // Replace with your OneLogin subdomain
+        const redirectUri = window.location.href; // The current URL or a predefined redirect URI
+        const authUrl = `https://${domain}/oidc/2/auth?response_type=id_token&client_id=${clientId}&redirect_uri=${redirectUri}&scope=openid%20profile&state=12345&nonce=abcdef`;
+
+        // Function to check for authentication
+        function isAuthenticated() {
+            const hash = window.location.hash.substr(1);
+            const params = new URLSearchParams(hash);
+            return params.has('id_token'); // Check if ID token exists in the URL hash
+        }
+
+        // Function to authenticate the user if not authenticated
+        function authenticate() {
+            if (!isAuthenticated()) {
+                // Redirect to OneLogin authentication page
+                window.location.href = authUrl;
+            } else {
+                // Extract and display the ID token (for debugging)
+                const hash = window.location.hash.substr(1);
+                const params = new URLSearchParams(hash);
+                const idToken = params.get('id_token');
+                console.log("Authenticated. ID Token:", idToken);
+
+                // Proceed with loading the iframe (or any other content)
+                document.getElementById('qlik-embed').innerHTML = '<iframe src="https://flintlink.eu.qlikcloud.com/single/?appid=c49d4467-47d3-4c38-8758-73c7c0170912&sheet=74109aba-364d-477b-ba0d-0ca0d6feb706&theme=theme_xeikon_01&opt=ctxmenu,currsel" style="border:none;width:100%;height:100%;"></iframe>';
+            }
+        }
+
+        // Call authenticate function on page load
+        window.onload = authenticate;
+    </script>
 </head>
 <body>
-    <h1>Welcome to My Simple Web Page</h1>
-    <p>This is a basic webpage that I created.</p>
-    <iframe src="https://flintlink.eu.qlikcloud.com/single/?appid=c49d4467-47d3-4c38-8758-73c7c0170912&sheet=74109aba-364d-477b-ba0d-0ca0d6feb706&theme=theme_xeikon_01&opt=ctxmenu,currsel" style="border:none;width:100%;height:100%;"></iframe>
+    <h1>Welcome to My Simple Web Page with OneLogin</h1>
+    <p>This is a basic webpage.</p>
+
+    <div id="qlik-embed">
+        <!-- The iframe will be injected here after authentication -->
+    </div>
     <p>This is a basic app.</p>
 </body>
 </html>
+
+
